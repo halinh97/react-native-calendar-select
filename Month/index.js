@@ -34,6 +34,10 @@ export default class Month extends Component {
     'en': [
       'January', 'February', 'March', 'April', 'May', 'June',
       'July', 'August', 'September', 'October', 'November', 'December'
+    ],
+	'vi': [
+      'Tháng Giêng', 'Tháng Hai',  'Tháng Ba', 'Tháng Tư', 'Tháng Năm', 'Tháng Sáu', 'Tháng Bảy',
+      'Tháng Tám', 'Tháng Chín', 'Tháng Mười', 'Tháng Mười Một', 'Tháng Mười Hai'
     ]
   }
   _getMonthText () {
@@ -48,7 +52,7 @@ export default class Month extends Component {
     if (year === y) {
       return Month.I18N_MAP[i18n][m];
     } else {
-      if (i18n === 'en') {
+      if (i18n === 'en' || i18n === 'vi') {
         return `${Month.I18N_MAP[i18n][m]}, ${y}`;
       }
       return month.format('YYYY年M月');
