@@ -126,12 +126,15 @@ export default class MonthList extends Component {
 
   }
   render () {
-      const {
-        startDate,
-        minDate
-      } = this.props;
-      let monthOffset = 12 * (startDate.year() - minDate.year()) +
-        startDate.month() - minDate.month();
+        const {
+           startDate,
+           minDate
+        } = this.props;
+        let monthOffset = 2;
+        if(startDate){
+        monthOffset = 12 * (startDate.year() - minDate.year()) +
+            startDate.month() - minDate.month();
+        }
     return (
         <ListView
           ref={(list) => {this.list = list;}}
