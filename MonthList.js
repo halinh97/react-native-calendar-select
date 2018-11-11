@@ -111,30 +111,37 @@ export default class MonthList extends Component {
       minDate
     } = this.props;
     let monthOffset = 12 * (startDate.year() - minDate.year()) +
-      startDate.month() - minDate.month();
+      startDate.month() - minDate.month() + 1;
     let weekOffset = this._getWeekNums(minDate, startDate);
     setTimeout(() => {
       this.list && this.list.scrollTo({
         x: 0,
-        y: monthOffset * (24 + 25) + (monthOffset ? weekOffset * Math.ceil(width / 7 + 10) : 0),
+        y: monthOffset * (24 + 25) + (monthOffset ? weekOffset * Math.ceil(width / 7 + 10) : 0) + 2000,
         animated: true
       });
     }, 400);
   }
   componentDidMount () {
     this.props.startDate && this._scrollToSelecetdMonth();
+
   }
   render () {
+      const {
+        startDate,
+        minDate
+      } = this.props;
+      let monthOffset = 12 * (startDate.year() - minDate.year()) +
+        startDate.month() - minDate.month();
     return (
-      <ListView
-        ref={(list) => {this.list = list;}}
-        style={styles.scrollArea}
-        dataSource={this.state.dataSource}
-        renderRow={this._renderMonth}
-        pageSize={2}
-        initialListSize={2}
-        showsVerticalScrollIndicator={false}
-      />
+        <ListView
+          ref={(list) => {this.list = list;}}
+          style={styles.scrollArea}
+          dataSource={this.state.dataSource}
+          renderRow={this._renderMonth}
+          pageSize={2}
+          initialListSize={monthOffset+1}
+          showsVerticalScrollIndicator={false}
+        />
     );
   }
 }

@@ -93,6 +93,7 @@ export default class Calendar extends Component {
     this._getDateRange();
   }
   componentDidMount () {
+
     this._resetCalendar();
   }
   _i18n (data, type) {
@@ -108,11 +109,12 @@ export default class Calendar extends Component {
     }
   }
   _resetCalendar () {
-    const {
+    var {
       startDate,
       endDate,
       format
     } = this.props;
+    if(!startDate)startDate = this._today;
     let start = Moment(startDate, format);
     let end = Moment(endDate, format);
     let isStartValid = start.isValid() && start >= this._minDate && start <= this._maxDate;
@@ -151,10 +153,11 @@ export default class Calendar extends Component {
     this._maxDate = max;
   }
   _onChoose (day) {
-    const {
+    var {
       startDate,
       endDate
     } = this.state;
+    if(!startDate)startDate = this._today;
     if ((!startDate && !endDate) || day < startDate || (startDate && endDate)) {
       this.setState({
         startDate: day,
@@ -197,10 +200,11 @@ export default class Calendar extends Component {
     });
   }
   confirm () {
-    const {
+    var {
       startDate,
       endDate
     } = this.state;
+    if(!startDate)startDate = this._today;
     let startMoment = startDate ? startDate.clone() : null;
     let endMoment = endDate ? endDate.clone() : null;
     this.props.onConfirm && this.props.onConfirm({
@@ -212,7 +216,7 @@ export default class Calendar extends Component {
     this.close();
   }
   render () {
-    const {
+    var {
       startDate,
       endDate,
       startDateText,
@@ -220,6 +224,7 @@ export default class Calendar extends Component {
       endDateText,
       endWeekdayText
     } = this.state;
+    if(!startDate)startDate = this._today;
     const {
       mainColor = '#15aaaa',
       subColor = '#fff',
