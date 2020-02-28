@@ -2,19 +2,20 @@
  * Created by TinySymphony on 2017-05-11.
  */
 
-import React, {PropTypes, Component} from 'react';
+import React, { PropTypes, Component } from 'react';
 import {
   View,
   Text,
-  ListView,
+  // ListView,
   Dimensions
 } from 'react-native';
 import Moment from 'moment';
+import ListView from "deprecated-react-native-listview";
 import styles from './CalendarStyle';
 import Month from './Month';
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 export default class MonthList extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => {
@@ -31,7 +32,7 @@ export default class MonthList extends Component {
     this._getWeekNums = this._getWeekNums.bind(this);
     this._scrollToSelecetdMonth = this._scrollToSelecetdMonth.bind(this);
   }
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     let isDateUpdated = ['startDate', 'endDate', 'minDate', 'maxDate'].reduce((prev, next) => {
       if (prev || nextProps[next] !== this.props[next]) {
         return true;
@@ -45,7 +46,7 @@ export default class MonthList extends Component {
       });
     }
   }
-  _renderMonth (month) {
+  _renderMonth(month) {
     return (
       <Month
         month={month.date || {}}
@@ -53,14 +54,14 @@ export default class MonthList extends Component {
       />
     );
   }
-  _checkRange (date, start, end) {
+  _checkRange(date, start, end) {
     if (!date || !start) return false;
     if (!end) return date.year() === start.year() && date.month() === start.month();
     if (date.year() < start.year() || (date.year() === start.year() && date.month() < start.month())) return false;
     if (date.year() > end.year() || (date.year() === end.year() && date.month() > end.month())) return false;
     return true;
   }
-  _shouldUpdate (month, props) {
+  _shouldUpdate(month, props) {
     if (!props) return false;
     const {
       startDate,
@@ -74,7 +75,7 @@ export default class MonthList extends Component {
     if (prev || next) return true;
     return false;
   }
-  _getMonthList (props) {
+  _getMonthList(props) {
     let minDate = (props || this.props).minDate.clone().date(1);
     let maxDate = (props || this.props).maxDate.clone();
     let monthList = [];
@@ -105,7 +106,7 @@ export default class MonthList extends Component {
     }
     return total;
   }
-  _scrollToSelecetdMonth () {
+  _scrollToSelecetdMonth() {
     const {
       startDate,
       minDate
@@ -121,30 +122,30 @@ export default class MonthList extends Component {
       });
     }, 400);
   }
-  componentDidMount () {
+  componentDidMount() {
     this.props.startDate && this._scrollToSelecetdMonth();
 
   }
-  render () {
-        const {
-           startDate,
-           minDate
-        } = this.props;
-        let monthOffset = 2;
-        if(startDate){
-        monthOffset = 12 * (startDate.year() - minDate.year()) +
-            startDate.month() - minDate.month();
-        }
+  render() {
+    const {
+      startDate,
+      minDate
+    } = this.props;
+    let monthOffset = 2;
+    if (startDate) {
+      monthOffset = 12 * (startDate.year() - minDate.year()) +
+        startDate.month() - minDate.month();
+    }
     return (
-        <ListView
-          ref={(list) => {this.list = list;}}
-          style={styles.scrollArea}
-          dataSource={this.state.dataSource}
-          renderRow={this._renderMonth}
-          pageSize={2}
-          initialListSize={monthOffset+1}
-          showsVerticalScrollIndicator={false}
-        />
+      <ListView
+        ref={(list) => { this.list = list; }}
+        style={styles.scrollArea}
+        dataSource={this.state.dataSource}
+        renderRow={this._renderMonth}
+        pageSize={2}
+        initialListSize={monthOffset + 1}
+        showsVerticalScrollIndicator={false}
+      />
     );
   }
 }
